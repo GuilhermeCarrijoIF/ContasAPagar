@@ -1,0 +1,14 @@
+{
+  "perfil": "local",
+  "banco": "H2 arquivo",
+  "java": "17.0.18",
+  "reinicioConfirmado": true,
+  "registro": {
+    "planoContas": 1,
+    "conta": "PERSIST-LOCAL",
+    "superior": null,
+    "descricao": "Verificação H2 arquivo",
+    "consolidacao": null
+  },
+  "resultado": "APROVADO"
+}

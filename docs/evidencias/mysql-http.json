@@ -1,0 +1,681 @@
+{
+  "banco": "MySQL 8.0.46",
+  "verificacoes": 36,
+  "status": "APROVADO",
+  "resultados": [
+    {
+      "metodo": "POST",
+      "rota": "/api/fornecedores",
+      "http": 201,
+      "resultado": {
+        "registro": 1,
+        "fornecedor": "Fornecedor MySQL",
+        "endereco": null,
+        "cidade": null,
+        "estado": null,
+        "cep": null,
+        "cgc": "12.345.678/0001-90",
+        "inscricaoEstadual": null,
+        "telefone": null,
+        "ramal": null,
+        "internet": null,
+        "pagamento": null,
+        "desconto": null,
+        "entrega": null,
+        "vendedor": null,
+        "dataHora": null
+      }
+    },
+    {
+      "metodo": "POST",
+      "rota": "/api/clientes",
+      "http": 201,
+      "resultado": {
+        "registro": 1,
+        "cliente": "Cliente MySQL",
+        "endereco": null,
+        "cidade": null,
+        "estado": null,
+        "cep": null,
+        "cgc": null,
+        "telefone": null,
+        "ramal": null,
+        "contato": null,
+        "inscricaoEstadual": null,
+        "internet": null,
+        "dataHora": null
+      }
+    },
+    {
+      "metodo": "POST",
+      "rota": "/api/plano-contas",
+      "http": 201,
+      "resultado": {
+        "planoContas": 1,
+        "conta": "MYSQL",
+        "superior": null,
+        "descricao": "Categoria MySQL",
+        "consolidacao": null
+      }
+    },
+    {
+      "metodo": "POST",
+      "rota": "/api/pagamentos",
+      "http": 201,
+      "resultado": {
+        "titulo": "MYSQL-pagamentos",
+        "cgc": "12.345.678/0001-90",
+        "valor": 100.25,
+        "emissao": "2026-09-23",
+        "vencto": "2026-10-02",
+        "lancamento": null,
+        "desconto": 10,
+        "validadeDesc": "2026-10-03",
+        "pagto": null,
+        "acrescimo": 5,
+        "tipo": null,
+        "fornecedorId": 1,
+        "categoriaId": 1,
+        "descricao": "Título integração MySQL",
+        "observacoes": "Teste real HTTP",
+        "valorQuitado": null,
+        "formaPagamento": null,
+        "status": "VENCIDA"
+      }
+    },
+    {
+      "metodo": "POST",
+      "rota": "/api/pagamentos",
+      "http": 409,
+      "resultado": {
+        "dataHora": "2026-10-03T15:25:44.0213083",
+        "status": 409,
+        "erro": "Conflict",
+        "mensagem": "Já existe uma conta com esse título."
+      }
+    },
+    {
+      "metodo": "GET",
+      "rota": "/api/pagamentos?status=VENCIDA&inicio=2026-10-02&fim=2026-10-03",
+      "http": 200,
+      "resultado": [
+        {
+          "titulo": "MYSQL-pagamentos",
+          "cgc": "12.345.678/0001-90",
+          "valor": 100.25,
+          "emissao": "2026-09-23",
+          "vencto": "2026-10-02",
+          "lancamento": null,
+          "desconto": 10.0,
+          "validadeDesc": "2026-10-03",
+          "pagto": null,
+          "acrescimo": 5.0,
+          "tipo": null,
+          "fornecedorId": 1,
+          "categoriaId": 1,
+          "descricao": "Título integração MySQL",
+          "observacoes": "Teste real HTTP",
+          "valorQuitado": null,
+          "formaPagamento": null,
+          "status": "VENCIDA"
+        }
+      ]
+    },
+    {
+      "metodo": "PATCH",
+      "rota": "/api/pagamentos/MYSQL-pagamentos/quitar",
+      "http": 200,
+      "resultado": {
+        "titulo": "MYSQL-pagamentos",
+        "cgc": "12.345.678/0001-90",
+        "valor": 100.25,
+        "emissao": "2026-09-23",
+        "vencto": "2026-10-02",
+        "lancamento": null,
+        "desconto": 10.0,
+        "validadeDesc": "2026-10-03",
+        "pagto": "2026-10-03",
+        "acrescimo": 5.0,
+        "tipo": null,
+        "fornecedorId": 1,
+        "categoriaId": 1,
+        "descricao": "Título integração MySQL",
+        "observacoes": "Teste real HTTP",
+        "valorQuitado": 95.25,
+        "formaPagamento": "PIX",
+        "status": "PAGA"
+      }
+    },
+    {
+      "metodo": "PATCH",
+      "rota": "/api/pagamentos/MYSQL-pagamentos/quitar",
+      "http": 200,
+      "resultado": {
+        "titulo": "MYSQL-pagamentos",
+        "cgc": "12.345.678/0001-90",
+        "valor": 100.25,
+        "emissao": "2026-09-23",
+        "vencto": "2026-10-02",
+        "lancamento": null,
+        "desconto": 10.0,
+        "validadeDesc": "2026-10-03",
+        "pagto": "2026-10-03",
+        "acrescimo": 5.0,
+        "tipo": null,
+        "fornecedorId": 1,
+        "categoriaId": 1,
+        "descricao": "Título integração MySQL",
+        "observacoes": "Teste real HTTP",
+        "valorQuitado": 95.25,
+        "formaPagamento": "PIX",
+        "status": "PAGA"
+      }
+    },
+    {
+      "metodo": "PATCH",
+      "rota": "/api/pagamentos/MYSQL-pagamentos/quitar",
+      "http": 409,
+      "resultado": {
+        "dataHora": "2026-10-03T15:25:44.2682466",
+        "status": 409,
+        "erro": "Conflict",
+        "mensagem": "Conta já quitada com outros dados."
+      }
+    },
+    {
+      "metodo": "DELETE",
+      "rota": "/api/pagamentos/MYSQL-pagamentos",
+      "http": 409,
+      "resultado": {
+        "dataHora": "2026-10-03T15:25:44.2840115",
+        "status": 409,
+        "erro": "Conflict",
+        "mensagem": "Somente contas abertas ou vencidas permitem esta operação. Histórico quitado/cancelado é preservado."
+      }
+    },
+    {
+      "metodo": "PUT",
+      "rota": "/api/pagamentos/MYSQL-pagamentos",
+      "http": 409,
+      "resultado": {
+        "dataHora": "2026-10-03T15:25:44.3091496",
+        "status": 409,
+        "erro": "Conflict",
+        "mensagem": "Somente contas abertas ou vencidas permitem esta operação. Histórico quitado/cancelado é preservado."
+      }
+    },
+    {
+      "metodo": "POST",
+      "rota": "/api/pagamentos",
+      "http": 201,
+      "resultado": {
+        "titulo": "RACE-pagamentos",
+        "cgc": "12.345.678/0001-90",
+        "valor": 100.25,
+        "emissao": "2026-09-23",
+        "vencto": "2026-10-02",
+        "lancamento": null,
+        "desconto": 10,
+        "validadeDesc": "2026-10-03",
+        "pagto": null,
+        "acrescimo": 5,
+        "tipo": null,
+        "fornecedorId": 1,
+        "categoriaId": 1,
+        "descricao": "Título integração MySQL",
+        "observacoes": "Teste real HTTP",
+        "valorQuitado": null,
+        "formaPagamento": null,
+        "status": "VENCIDA"
+      }
+    },
+    {
+      "metodo": "PATCH",
+      "rota": "/api/pagamentos/RACE-pagamentos/quitar",
+      "http": 200,
+      "resultado": {
+        "titulo": "RACE-pagamentos",
+        "cgc": "12.345.678/0001-90",
+        "valor": 100.25,
+        "emissao": "2026-09-23",
+        "vencto": "2026-10-02",
+        "lancamento": null,
+        "desconto": 10.0,
+        "validadeDesc": "2026-10-03",
+        "pagto": "2026-10-03",
+        "acrescimo": 5.0,
+        "tipo": null,
+        "fornecedorId": 1,
+        "categoriaId": 1,
+        "descricao": "Título integração MySQL",
+        "observacoes": "Teste real HTTP",
+        "valorQuitado": 95.25,
+        "formaPagamento": "PIX",
+        "status": "PAGA"
+      }
+    },
+    {
+      "metodo": "PATCH",
+      "rota": "/api/pagamentos/RACE-pagamentos/quitar",
+      "http": 409,
+      "resultado": {
+        "dataHora": "2026-10-03T15:25:45.802767",
+        "status": 409,
+        "erro": "Conflict",
+        "mensagem": "Conta já quitada com outros dados."
+      }
+    },
+    {
+      "metodo": "GET",
+      "rota": "/api/pagamentos/RACE-pagamentos",
+      "http": 200,
+      "resultado": {
+        "titulo": "RACE-pagamentos",
+        "cgc": "12.345.678/0001-90",
+        "valor": 100.25,
+        "emissao": "2026-09-23",
+        "vencto": "2026-10-02",
+        "lancamento": null,
+        "desconto": 10.0,
+        "validadeDesc": "2026-10-03",
+        "pagto": "2026-10-03",
+        "acrescimo": 5.0,
+        "tipo": null,
+        "fornecedorId": 1,
+        "categoriaId": 1,
+        "descricao": "Título integração MySQL",
+        "observacoes": "Teste real HTTP",
+        "valorQuitado": 95.25,
+        "formaPagamento": "PIX",
+        "status": "PAGA"
+      }
+    },
+    {
+      "metodo": "POST",
+      "rota": "/api/pagamentos",
+      "http": 201,
+      "resultado": {
+        "titulo": "CANCEL-pagamentos",
+        "cgc": "12.345.678/0001-90",
+        "valor": 100.25,
+        "emissao": "2026-09-23",
+        "vencto": "2026-10-02",
+        "lancamento": null,
+        "desconto": 10,
+        "validadeDesc": "2026-10-03",
+        "pagto": null,
+        "acrescimo": 5,
+        "tipo": null,
+        "fornecedorId": 1,
+        "categoriaId": 1,
+        "descricao": "Título integração MySQL",
+        "observacoes": "Teste real HTTP",
+        "valorQuitado": null,
+        "formaPagamento": null,
+        "status": "VENCIDA"
+      }
+    },
+    {
+      "metodo": "PATCH",
+      "rota": "/api/pagamentos/CANCEL-pagamentos/cancelar",
+      "http": 200,
+      "resultado": {
+        "titulo": "CANCEL-pagamentos",
+        "cgc": "12.345.678/0001-90",
+        "valor": 100.25,
+        "emissao": "2026-09-23",
+        "vencto": "2026-10-02",
+        "lancamento": null,
+        "desconto": 10.0,
+        "validadeDesc": "2026-10-03",
+        "pagto": null,
+        "acrescimo": 5.0,
+        "tipo": null,
+        "fornecedorId": 1,
+        "categoriaId": 1,
+        "descricao": "Título integração MySQL",
+        "observacoes": "Teste real HTTP",
+        "valorQuitado": null,
+        "formaPagamento": null,
+        "status": "CANCELADA"
+      }
+    },
+    {
+      "metodo": "PATCH",
+      "rota": "/api/pagamentos/CANCEL-pagamentos/quitar",
+      "http": 409,
+      "resultado": {
+        "dataHora": "2026-10-03T15:25:45.9315771",
+        "status": 409,
+        "erro": "Conflict",
+        "mensagem": "Somente contas abertas ou vencidas permitem esta operação. Histórico quitado/cancelado é preservado."
+      }
+    },
+    {
+      "metodo": "POST",
+      "rota": "/api/recebimentos",
+      "http": 201,
+      "resultado": {
+        "titulo": "MYSQL-recebimentos",
+        "cgc": null,
+        "valor": 100.25,
+        "emissao": "2026-09-23",
+        "vencto": "2026-10-02",
+        "lancamento": null,
+        "desconto": 10,
+        "validadeDesc": "2026-10-03",
+        "pagto": null,
+        "acrescimo": 5,
+        "tipo": null,
+        "clienteId": 1,
+        "categoriaId": 1,
+        "descricao": "Título integração MySQL",
+        "observacoes": "Teste real HTTP",
+        "valorQuitado": null,
+        "formaPagamento": null,
+        "status": "VENCIDA"
+      }
+    },
+    {
+      "metodo": "POST",
+      "rota": "/api/recebimentos",
+      "http": 409,
+      "resultado": {
+        "dataHora": "2026-10-03T15:25:46.011714",
+        "status": 409,
+        "erro": "Conflict",
+        "mensagem": "Já existe uma conta com esse título."
+      }
+    },
+    {
+      "metodo": "GET",
+      "rota": "/api/recebimentos?status=VENCIDA&inicio=2026-10-02&fim=2026-10-03",
+      "http": 200,
+      "resultado": [
+        {
+          "titulo": "MYSQL-recebimentos",
+          "cgc": null,
+          "valor": 100.25,
+          "emissao": "2026-09-23",
+          "vencto": "2026-10-02",
+          "lancamento": null,
+          "desconto": 10.0,
+          "validadeDesc": "2026-10-03",
+          "pagto": null,
+          "acrescimo": 5.0,
+          "tipo": null,
+          "clienteId": 1,
+          "categoriaId": 1,
+          "descricao": "Título integração MySQL",
+          "observacoes": "Teste real HTTP",
+          "valorQuitado": null,
+          "formaPagamento": null,
+          "status": "VENCIDA"
+        }
+      ]
+    },
+    {
+      "metodo": "PATCH",
+      "rota": "/api/recebimentos/MYSQL-recebimentos/quitar",
+      "http": 200,
+      "resultado": {
+        "titulo": "MYSQL-recebimentos",
+        "cgc": null,
+        "valor": 100.25,
+        "emissao": "2026-09-23",
+        "vencto": "2026-10-02",
+        "lancamento": null,
+        "desconto": 10.0,
+        "validadeDesc": "2026-10-03",
+        "pagto": "2026-10-03",
+        "acrescimo": 5.0,
+        "tipo": null,
+        "clienteId": 1,
+        "categoriaId": 1,
+        "descricao": "Título integração MySQL",
+        "observacoes": "Teste real HTTP",
+        "valorQuitado": 95.25,
+        "formaPagamento": "PIX",
+        "status": "RECEBIDA"
+      }
+    },
+    {
+      "metodo": "PATCH",
+      "rota": "/api/recebimentos/MYSQL-recebimentos/quitar",
+      "http": 200,
+      "resultado": {
+        "titulo": "MYSQL-recebimentos",
+        "cgc": null,
+        "valor": 100.25,
+        "emissao": "2026-09-23",
+        "vencto": "2026-10-02",
+        "lancamento": null,
+        "desconto": 10.0,
+        "validadeDesc": "2026-10-03",
+        "pagto": "2026-10-03",
+        "acrescimo": 5.0,
+        "tipo": null,
+        "clienteId": 1,
+        "categoriaId": 1,
+        "descricao": "Título integração MySQL",
+        "observacoes": "Teste real HTTP",
+        "valorQuitado": 95.25,
+        "formaPagamento": "PIX",
+        "status": "RECEBIDA"
+      }
+    },
+    {
+      "metodo": "PATCH",
+      "rota": "/api/recebimentos/MYSQL-recebimentos/quitar",
+      "http": 409,
+      "resultado": {
+        "dataHora": "2026-10-03T15:25:46.0906636",
+        "status": 409,
+        "erro": "Conflict",
+        "mensagem": "Conta já quitada com outros dados."
+      }
+    },
+    {
+      "metodo": "DELETE",
+      "rota": "/api/recebimentos/MYSQL-recebimentos",
+      "http": 409,
+      "resultado": {
+        "dataHora": "2026-10-03T15:25:46.1017286",
+        "status": 409,
+        "erro": "Conflict",
+        "mensagem": "Somente contas abertas ou vencidas permitem esta operação. Histórico quitado/cancelado é preservado."
+      }
+    },
+    {
+      "metodo": "PUT",
+      "rota": "/api/recebimentos/MYSQL-recebimentos",
+      "http": 409,
+      "resultado": {
+        "dataHora": "2026-10-03T15:25:46.1127829",
+        "status": 409,
+        "erro": "Conflict",
+        "mensagem": "Somente contas abertas ou vencidas permitem esta operação. Histórico quitado/cancelado é preservado."
+      }
+    },
+    {
+      "metodo": "POST",
+      "rota": "/api/recebimentos",
+      "http": 201,
+      "resultado": {
+        "titulo": "RACE-recebimentos",
+        "cgc": null,
+        "valor": 100.25,
+        "emissao": "2026-09-23",
+        "vencto": "2026-10-02",
+        "lancamento": null,
+        "desconto": 10,
+        "validadeDesc": "2026-10-03",
+        "pagto": null,
+        "acrescimo": 5,
+        "tipo": null,
+        "clienteId": 1,
+        "categoriaId": 1,
+        "descricao": "Título integração MySQL",
+        "observacoes": "Teste real HTTP",
+        "valorQuitado": null,
+        "formaPagamento": null,
+        "status": "VENCIDA"
+      }
+    },
+    {
+      "metodo": "PATCH",
+      "rota": "/api/recebimentos/RACE-recebimentos/quitar",
+      "http": 200,
+      "resultado": {
+        "titulo": "RACE-recebimentos",
+        "cgc": null,
+        "valor": 100.25,
+        "emissao": "2026-09-23",
+        "vencto": "2026-10-02",
+        "lancamento": null,
+        "desconto": 10.0,
+        "validadeDesc": "2026-10-03",
+        "pagto": "2026-10-03",
+        "acrescimo": 5.0,
+        "tipo": null,
+        "clienteId": 1,
+        "categoriaId": 1,
+        "descricao": "Título integração MySQL",
+        "observacoes": "Teste real HTTP",
+        "valorQuitado": 95.25,
+        "formaPagamento": "PIX",
+        "status": "RECEBIDA"
+      }
+    },
+    {
+      "metodo": "PATCH",
+      "rota": "/api/recebimentos/RACE-recebimentos/quitar",
+      "http": 409,
+      "resultado": {
+        "dataHora": "2026-10-03T15:25:46.1888617",
+        "status": 409,
+        "erro": "Conflict",
+        "mensagem": "Conta já quitada com outros dados."
+      }
+    },
+    {
+      "metodo": "GET",
+      "rota": "/api/recebimentos/RACE-recebimentos",
+      "http": 200,
+      "resultado": {
+        "titulo": "RACE-recebimentos",
+        "cgc": null,
+        "valor": 100.25,
+        "emissao": "2026-09-23",
+        "vencto": "2026-10-02",
+        "lancamento": null,
+        "desconto": 10.0,
+        "validadeDesc": "2026-10-03",
+        "pagto": "2026-10-03",
+        "acrescimo": 5.0,
+        "tipo": null,
+        "clienteId": 1,
+        "categoriaId": 1,
+        "descricao": "Título integração MySQL",
+        "observacoes": "Teste real HTTP",
+        "valorQuitado": 95.25,
+        "formaPagamento": "PIX",
+        "status": "RECEBIDA"
+      }
+    },
+    {
+      "metodo": "POST",
+      "rota": "/api/recebimentos",
+      "http": 201,
+      "resultado": {
+        "titulo": "CANCEL-recebimentos",
+        "cgc": null,
+        "valor": 100.25,
+        "emissao": "2026-09-23",
+        "vencto": "2026-10-02",
+        "lancamento": null,
+        "desconto": 10,
+        "validadeDesc": "2026-10-03",
+        "pagto": null,
+        "acrescimo": 5,
+        "tipo": null,
+        "clienteId": 1,
+        "categoriaId": 1,
+        "descricao": "Título integração MySQL",
+        "observacoes": "Teste real HTTP",
+        "valorQuitado": null,
+        "formaPagamento": null,
+        "status": "VENCIDA"
+      }
+    },
+    {
+      "metodo": "PATCH",
+      "rota": "/api/recebimentos/CANCEL-recebimentos/cancelar",
+      "http": 200,
+      "resultado": {
+        "titulo": "CANCEL-recebimentos",
+        "cgc": null,
+        "valor": 100.25,
+        "emissao": "2026-09-23",
+        "vencto": "2026-10-02",
+        "lancamento": null,
+        "desconto": 10.0,
+        "validadeDesc": "2026-10-03",
+        "pagto": null,
+        "acrescimo": 5.0,
+        "tipo": null,
+        "clienteId": 1,
+        "categoriaId": 1,
+        "descricao": "Título integração MySQL",
+        "observacoes": "Teste real HTTP",
+        "valorQuitado": null,
+        "formaPagamento": null,
+        "status": "CANCELADA"
+      }
+    },
+    {
+      "metodo": "PATCH",
+      "rota": "/api/recebimentos/CANCEL-recebimentos/quitar",
+      "http": 409,
+      "resultado": {
+        "dataHora": "2026-10-03T15:25:46.2646578",
+        "status": 409,
+        "erro": "Conflict",
+        "mensagem": "Somente contas abertas ou vencidas permitem esta operação. Histórico quitado/cancelado é preservado."
+      }
+    },
+    {
+      "metodo": "DELETE",
+      "rota": "/api/plano-contas/1",
+      "http": 409,
+      "resultado": {
+        "dataHora": "2026-10-03T15:25:46.3677801",
+        "status": 409,
+        "erro": "Conflict",
+        "mensagem": "Operação conflita com um registro existente, vínculo ou alteração concorrente."
+      }
+    },
+    {
+      "metodo": "GET",
+      "rota": "/api/relatorios/resumo",
+      "http": 200,
+      "resultado": {
+        "clientes": 1,
+        "fornecedores": 1,
+        "despesas": 0,
+        "contasAPagar": 3,
+        "contasAReceber": 3,
+        "valorAPagarEmAberto": 0,
+        "valorAReceberEmAberto": 0,
+        "valorPago": 190.5,
+        "valorRecebido": 190.5
+      }
+    },
+    {
+      "metodo": "GET",
+      "rota": "/v3/api-docs",
+      "http": 200,
+      "resultado": "OpenAPI válido, caminhos publicados"
+    }
+  ]
+}

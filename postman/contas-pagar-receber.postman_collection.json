@@ -1,0 +1,707 @@
+{
+  "info": {
+    "name": "Contas a Pagar e a Receber - Parte 1 - Demonstração completa",
+    "description": "Execute em ordem com Collection Runner. Datas e IDs são gerados automaticamente; cada requisição verifica o HTTP esperado. Fluxos de erro fazem parte da demonstração. Configure baseUrl. Cada execução preserva histórico e usa novos títulos.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ],
+  "item": [
+    {
+      "name": "Fluxo completo da Parte 1 (24 requisições)",
+      "item": [
+        {
+          "name": "01 - Cadastrar fornecedor",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/fornecedores",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fornecedor\": \"Fornecedor demonstração\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "if(pm.response.code === 201) pm.collectionVariables.set(\"fornecedorId\", pm.response.json().registro);"
+                ]
+              }
+            },
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const id = Date.now().toString();",
+                  "pm.collectionVariables.set(\"tituloP\", \"P-\" + id);",
+                  "pm.collectionVariables.set(\"tituloR\", \"R-\" + id);",
+                  "pm.collectionVariables.set(\"categoriaCodigo\", \"CAT-\" + id);",
+                  "const parts = new Intl.DateTimeFormat(\"en-CA\", {timeZone:\"America/Sao_Paulo\",year:\"numeric\",month:\"2-digit\",day:\"2-digit\"}).formatToParts(new Date());",
+                  "const value = type => parts.find(x => x.type === type).value;",
+                  "const hoje = value(\"year\") + \"-\" + value(\"month\") + \"-\" + value(\"day\");",
+                  "pm.collectionVariables.set(\"hoje\", hoje);",
+                  "const vencimento = new Date(hoje + \"T12:00:00Z\"); vencimento.setUTCDate(vencimento.getUTCDate()+10);",
+                  "pm.collectionVariables.set(\"vencimento\", vencimento.toISOString().substring(0,10));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "02 - Cadastrar cliente",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/clientes",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"cliente\": \"Cliente demonstração\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "if(pm.response.code === 201) pm.collectionVariables.set(\"clienteId\", pm.response.json().registro);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "03 - Cadastrar categoria",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/plano-contas",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"conta\": \"{{categoriaCodigo}}\",\n  \"descricao\": \"Categoria demonstração\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });",
+                  "if(pm.response.code === 201) pm.collectionVariables.set(\"categoriaId\", pm.response.json().planoContas);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "04 - Cadastrar conta a pagar",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/pagamentos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"{{tituloP}}\",\n  \"fornecedorId\": \"{{fornecedorId}}\",\n  \"categoriaId\": \"{{categoriaId}}\",\n  \"descricao\": \"Conta demonstração\",\n  \"observacoes\": \"Apresentação da Parte 1\",\n  \"valor\": 150.25,\n  \"emissao\": \"{{hoje}}\",\n  \"vencto\": \"{{vencimento}}\",\n  \"desconto\": 10,\n  \"acrescimo\": 5,\n  \"validadeDesc\": \"{{vencimento}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "05 - Cadastrar conta a receber",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/recebimentos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"{{tituloR}}\",\n  \"clienteId\": \"{{clienteId}}\",\n  \"categoriaId\": \"{{categoriaId}}\",\n  \"descricao\": \"Conta demonstração\",\n  \"observacoes\": \"Apresentação da Parte 1\",\n  \"valor\": 150.25,\n  \"emissao\": \"{{hoje}}\",\n  \"vencto\": \"{{vencimento}}\",\n  \"desconto\": 10,\n  \"acrescimo\": 5,\n  \"validadeDesc\": \"{{vencimento}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "06 - Consulta por período e situação",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/pagamentos?status=ABERTA&inicio={{hoje}}&fim={{vencimento}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "07 - Consultar conta individual",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/recebimentos/{{tituloR}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "08 - Alterar conta aberta",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/pagamentos/{{tituloP}}",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"{{tituloP}}\",\n  \"fornecedorId\": \"{{fornecedorId}}\",\n  \"categoriaId\": \"{{categoriaId}}\",\n  \"descricao\": \"Descrição alterada\",\n  \"observacoes\": \"Apresentação da Parte 1\",\n  \"valor\": 150.25,\n  \"emissao\": \"{{hoje}}\",\n  \"vencto\": \"{{vencimento}}\",\n  \"desconto\": 10,\n  \"acrescimo\": 5,\n  \"validadeDesc\": \"{{vencimento}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "09 - Duplicação é recusada",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/pagamentos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"{{tituloP}}\",\n  \"fornecedorId\": \"{{fornecedorId}}\",\n  \"categoriaId\": \"{{categoriaId}}\",\n  \"descricao\": \"Conta demonstração\",\n  \"observacoes\": \"Apresentação da Parte 1\",\n  \"valor\": 150.25,\n  \"emissao\": \"{{hoje}}\",\n  \"vencto\": \"{{vencimento}}\",\n  \"desconto\": 10,\n  \"acrescimo\": 5,\n  \"validadeDesc\": \"{{vencimento}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "10 - Registrar pagamento",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/pagamentos/{{tituloP}}/quitar",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": \"{{hoje}}\",\n  \"formaPagamento\": \"PIX\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "11 - Repetição idêntica é idempotente",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/pagamentos/{{tituloP}}/quitar",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": \"{{hoje}}\",\n  \"formaPagamento\": \"PIX\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "12 - Repetição diferente é conflito",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/pagamentos/{{tituloP}}/quitar",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": \"{{hoje}}\",\n  \"formaPagamento\": \"DINHEIRO\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "13 - Registrar recebimento",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/recebimentos/{{tituloR}}/quitar",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": \"{{hoje}}\",\n  \"formaPagamento\": \"PIX\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "14 - Histórico quitado não pode ser excluído",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/pagamentos/{{tituloP}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "15 - Categoria referenciada protegida",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/plano-contas/{{categoriaId}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "16 - Resumo financeiro",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/relatorios/resumo"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "17 - Criar conta para cancelamento",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/recebimentos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"C-{{tituloR}}\",\n  \"clienteId\": \"{{clienteId}}\",\n  \"categoriaId\": \"{{categoriaId}}\",\n  \"descricao\": \"Conta demonstração\",\n  \"observacoes\": \"Apresentação da Parte 1\",\n  \"valor\": 150.25,\n  \"emissao\": \"{{hoje}}\",\n  \"vencto\": \"{{vencimento}}\",\n  \"desconto\": 10,\n  \"acrescimo\": 5,\n  \"validadeDesc\": \"{{vencimento}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "18 - Cancelar conta",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": "{{baseUrl}}/api/recebimentos/C-{{tituloR}}/cancelar"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "19 - Conta cancelada não pode ser quitada",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/recebimentos/C-{{tituloR}}/quitar",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"data\": \"{{hoje}}\",\n  \"formaPagamento\": \"PIX\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 409\", function () { pm.response.to.have.status(409); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "20 - Criar conta para exclusão",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/pagamentos",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"D-{{tituloP}}\",\n  \"fornecedorId\": \"{{fornecedorId}}\",\n  \"categoriaId\": \"{{categoriaId}}\",\n  \"descricao\": \"Conta demonstração\",\n  \"observacoes\": \"Apresentação da Parte 1\",\n  \"valor\": 150.25,\n  \"emissao\": \"{{hoje}}\",\n  \"vencto\": \"{{vencimento}}\",\n  \"desconto\": 10,\n  \"acrescimo\": 5,\n  \"validadeDesc\": \"{{vencimento}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 201\", function () { pm.response.to.have.status(201); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "21 - Excluir conta aberta",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": "{{baseUrl}}/api/pagamentos/D-{{tituloP}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 204\", function () { pm.response.to.have.status(204); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "22 - Conta excluída retorna 404",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/api/pagamentos/D-{{tituloP}}"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 404\", function () { pm.response.to.have.status(404); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "23 - Campos obrigatórios validados",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/pagamentos",
+            "body": {
+              "mode": "raw",
+              "raw": "{}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 400\", function () { pm.response.to.have.status(400); });"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "24 - Documentação OpenAPI",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{baseUrl}}/v3/api-docs"
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"HTTP 200\", function () { pm.response.to.have.status(200); });"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

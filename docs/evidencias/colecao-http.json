@@ -1,0 +1,128 @@
+{
+  "java": "17.0.18",
+  "status": "APROVADO",
+  "requisicoes": 24,
+  "persistenciaAposReinicio": true,
+  "resultados": [
+    {
+      "cenario": "01 - Cadastrar fornecedor",
+      "http": 201,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "02 - Cadastrar cliente",
+      "http": 201,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "03 - Cadastrar categoria",
+      "http": 201,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "04 - Cadastrar conta a pagar",
+      "http": 201,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "05 - Cadastrar conta a receber",
+      "http": 201,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "06 - Consulta por período e situação",
+      "http": 200,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "07 - Consultar conta individual",
+      "http": 200,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "08 - Alterar conta aberta",
+      "http": 200,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "09 - Duplicação é recusada",
+      "http": 409,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "10 - Registrar pagamento",
+      "http": 200,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "11 - Repetição idêntica é idempotente",
+      "http": 200,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "12 - Repetição diferente é conflito",
+      "http": 409,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "13 - Registrar recebimento",
+      "http": 200,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "14 - Histórico quitado não pode ser excluído",
+      "http": 409,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "15 - Categoria referenciada protegida",
+      "http": 409,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "16 - Resumo financeiro",
+      "http": 200,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "17 - Criar conta para cancelamento",
+      "http": 201,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "18 - Cancelar conta",
+      "http": 200,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "19 - Conta cancelada não pode ser quitada",
+      "http": 409,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "20 - Criar conta para exclusão",
+      "http": 201,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "21 - Excluir conta aberta",
+      "http": 204,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "22 - Conta excluída retorna 404",
+      "http": 404,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "23 - Campos obrigatórios validados",
+      "http": 400,
+      "resultado": "APROVADO"
+    },
+    {
+      "cenario": "24 - Documentação OpenAPI",
+      "http": 200,
+      "resultado": "APROVADO"
+    }
+  ]
+}

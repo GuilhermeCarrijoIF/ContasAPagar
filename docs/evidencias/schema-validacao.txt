@@ -1,0 +1,4 @@
+MySQL 8.0.46: script importado em base vazia.
+Tabelas e FKs:
+13
+16
